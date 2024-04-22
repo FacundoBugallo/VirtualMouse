@@ -83,5 +83,35 @@ class handdetector():
         length=math.hypot(x2-x1, y2,y1)
         return length,  frame ,[x1,y1,x2,y2,cx,cy]
 #funcion principal
+def main ():
+    ptiempo = 0
+    ctiempo = 0
+    #leemos camara
+    cap = cv2.VideoCapture(0)
+    #creamos objt
+    detector = handdetector()
+    #realizamos la deteccion de manos
+    while True:
+        ret, frame = cap.read()
+        #una ves tenemos imagen la enviamos
+        frame = detector.encontrarmanos(frame)
+        lista, bbox = detector.encontrarposicion(frame)
+        if len(lista) !=0:
+            print(lista[4])
+        #mostramos fps
+        ctiempo = time.time()
+        fps=1/(ctiempo - ptiempo)
+        ptiempo = ctiempo
 
+        cv2.putText(frame, str(int(fps)), (10,70),cv2.FONT_HERSHEY_PLAIN, 3,(255, 0,255),3)
 
+        cv2.imshow("mano",frame)
+        k=cv2.waitKey(1)
+
+        if k == 27:
+            break
+    cap.release()
+    cv2.destroyWindow()
+
+if __name__ == "__main__":
+    main()
