@@ -21,14 +21,19 @@ class detectormanos():
         self.tip = [4, 8, 12, 16, 20]
 
         #-----funcion para encontrar la mano-----
-    def encontrarmanos(self, frame, dibujar = True):
+    def encontrarmanos(self, frame, dibujar=True):
         imgcolor = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.resultados = self.manos.process(imgcolor)
 
+        # Verifica si se detectaron manos
         if self.resultados.multi_hand_landmarks:
+            print("True")
             for mano in self.resultados.multi_hand_landmarks:
                 if dibujar:
                     self.dibujo.draw_landmarks(frame, mano, self.mpmanos.HAND_CONNECTIONS)
+        else:
+            print("No se detectaron manos")  # Agregar esta línea
+
         return frame
 
         #-----funcion para encontrar la posicion-----
@@ -88,13 +93,14 @@ def main():
     ptiempo = 0
     ctiempo = 0
     #lee    mos camara
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     #creamos objt
     detector = detectormanos()
     #realizamos la deteccion de manos
     while True:
-        ret, frame = cap.read(0)
-        print(ret)
+        ret, frame = cap.read()
+        if not ret:
+            break
         #una ves tenemos imagen la enviamos
         frame = detector.encontrarmanos(frame)
         lista, bbox = detector.encontrarposicion(frame)
@@ -104,11 +110,11 @@ def main():
         ctiempo = time.time()
         fps = 1 / (ctiempo - ptiempo)
         ptiempo = ctiempo
-
+        print(fps)
         cv2.putText(frame, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3,(255, 0,255),3)
 
         cv2.imshow("Manos", frame)
-        k = cv2.waitKey(0)
+        k = cv2.waitKey(1)  # Cambiado a 1 para permitir que el bucle continúe leyendo desde la cámara
 
         if k == 27:
             break
