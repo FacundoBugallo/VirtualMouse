@@ -8,7 +8,7 @@ import time
 #-----Work with classes.-----
 class detectormanos():
         #-----Initialize Detection Parameters.-----
-    def __init__(self, mode=False, maxhands=2, Confdeteccion=1, Confsegui=1):
+    def __init__(self, mode=False, maxhands=2, Confdeteccion= 1, Confsegui= 1):
         self.mode = mode #-----Creamos el objeto y el tendra su propia variable.-----
         self.maxhands = maxhands#-----Lo mismo haremos con todos los objetos.-----
         self.Confdeteccion = Confdeteccion
@@ -44,7 +44,7 @@ class detectormanos():
                 cx, cy = int(lm.x * ancho), int(lm.y * alto)# convertimos la info en pixeles
                 xlista.append(cx)
                 ylista.append(cy)
-                self.lista.append([id,cx,cy])
+                self.lista.append([id, cx, cy])
                 if dibujar:
                     cv2.circle(frame,(cx,cy),5,(0,0,0), cv2.FILLED)#creamos un circulo
 
@@ -88,32 +88,32 @@ def main():
     ptiempo = 0
     ctiempo = 0
     #lee    mos camara
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     #creamos objt
     detector = detectormanos()
     #realizamos la deteccion de manos
     while True:
-        ret, frame = cap.read()
+        ret, frame = cap.read(0)
+        print(ret)
         #una ves tenemos imagen la enviamos
         frame = detector.encontrarmanos(frame)
         lista, bbox = detector.encontrarposicion(frame)
-        if len(lista) !=0:
+        if len(lista) != 0:
             print(lista[4])
         #mostramos fps
         ctiempo = time.time()
-        fps=1/(ctiempo - ptiempo)
+        fps = 1 / (ctiempo - ptiempo)
         ptiempo = ctiempo
 
         cv2.putText(frame, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3,(255, 0,255),3)
 
-        cv2.imshow("mano", frame)
-        k = cv2.waitKey(1)
+        cv2.imshow("Manos", frame)
+        k = cv2.waitKey(0)
 
         if k == 27:
             break
     cap.release()
     cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     main()
