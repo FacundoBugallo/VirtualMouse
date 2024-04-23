@@ -6,7 +6,7 @@ import MainMouse as sm #Nuestro programa que contiene los datos y seguimiento de
 import autopy #libreria que nos permite manipular el mouse
 
 #-----Declaracion de variables.-----
-anchocam, altocam = 1280, 960
+anchocam, altocam = 640, 480
 cuadro = 150 #donde podemos interacctuar
 anchopanta , altopanta = autopy.screen.size()#obtenemos las dimensiones de nuestra pantalla
 sua = 5
@@ -30,37 +30,47 @@ print("Sets", cap)
 detector = sm.detectormanos(maxhands=1)#utilzaremos una mano
 print( "==Maximo de damons : ", detector.maxhands, "==")
 
-clic_activo = False
-
 while True:
     ret, frame = cap.read()
-    frame = detector.encontrarmanos(frame)
-    lista, bbox = detector.encontrarposicion(frame)
-
+    frame = detector.encontrarmanos(frame) #encontramos las manos
+    lista, bbox = detector.encontrarposicion(frame) #Mostramos posiciones
+    #print(frame,ret)|
+    #print("Lista", lista)
+    #punta de dedos del indice y corazon
     if len(lista) != 0:
-        x1, y1 = lista[8][1:]  # Coordenadas del dedo índice
-        x2, y2 = lista[12][1:]  # Coordenadas del dedo corazón
-        dedos = detector.dedosarriba()
+        x1, y1, = lista[8][1:] #indice
+        x2, y2, = lista[12][1:] #corazon
+        #print("Lista", x1, y1, x1, x2)
 
-        # Si los dedos índice y corazón están levantados, activa el clic
-        if dedos[1] == 1 and dedos[2] == 1:
-            clic_activo = True
-            autopy.mouse.toggle(True)  # Activar el clic
+    #-----Comprobamos que los deos estan levantados-----
+        dedos = detector.dedosarriba()#contamos 5 posiciones nos indica si se levanta cualquier dedo
+        cv2.rectangle(frame, (cuadro, cuadro), (anchocam - cuadro, altocam - cuadro ), (0, 0, 0), 2)#Generamos cuadro
+        print("==Dedos arriba :", dedos, "==")
 
-        # Si el clic está activo, mueve el mouse
-        if clic_activo:
-            x3 = np.interp(x1, (cuadro, anchocam - cuadro), (0, anchopanta))
-            y3 = np.interp(y1, (cuadro, altocam - cuadro), (0, altopanta))
-            cubix = pubix + (x3 - pubix) / sua
+        #moviemiento un dedo
+        if dedos[1] == 1 and dedos[2] == 0:
+            #Convercion a pixeles
+            x3 = np.interp(x1, (cuadro, anchocam-cuadro), (0, anchopanta))
+            y3 = np.interp(y1, (cuadro, altocam-cuadro), (0, altopanta))
+
+            #suabizat valores
+            cubix = pubix + (x3 - pubix) / sua #Hubicacion actual = ubi anterior + x3 divididas al valor suabizado
             cubiy = pubiy + (y3 - pubiy) / sua
-            autopy.mouse.move(anchopanta - cubix, cubiy)
+
+            #Mover Mouse
+            autopy.mouse.move(anchopanta - cubix,cubiy)#Enviar cords
             cv2.circle(frame, (x1, y1), 10, (0, 0, 0), cv2.FILLED)
             pubix, pubiy = cubix, cubiy
 
-        # Si los dedos índice y corazón no están levantados, desactiva el clic
-        if dedos[1] == 0 and dedos[2] == 0:
-            clic_activo = False
-            autopy.mouse.toggle(False)  # Desactivar el clic
+        #Comprobamos que este en modo click
+
+        if dedos[2] == 1 and dedos[2] == 1:
+            longitud, frame, linea = detector.distancia(8, 12, frame)
+            print(longitud)
+            if longitud < 30:
+                cv2.circle(frame, (linea[4],linea[5]), 10, (0, 255, 0), cv2.FILLED)
+                #si la distancia es correcta hacemos click
+                autopy.mouse.click()
 
     cv2.imshow("Mouse", frame)
     k = cv2.waitKey(1)
