@@ -8,7 +8,7 @@ import time
 #-----Work with classes.-----
 class detectormanos():
         #-----Initialize Detection Parameters.-----
-    def __init__(self, mode=False, maxhands=2, Confdeteccion= 1, Confsegui= 1):
+    def __init__(self, mode=False, maxhands=2, Confdeteccion= 1, Confsegui= 0.5):
         self.mode = mode #-----Creamos el objeto y el tendra su propia variable.-----
         self.maxhands = maxhands#-----Lo mismo haremos con todos los objetos.-----
         self.Confdeteccion = Confdeteccion
@@ -32,7 +32,7 @@ class detectormanos():
                 if dibujar:
                     self.dibujo.draw_landmarks(frame, mano, self.mpmanos.HAND_CONNECTIONS)
         else:
-            print("No se detectaron manos")  # Agregar esta línea
+            print("No se detectaron manos")
 
         return frame
 
