@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="325ead7c-03a1-4db7-a3bb-979f03336312" name="Changes" comment="Program_beta_1">
+    <list default="true" id="325ead7c-03a1-4db7-a3bb-979f03336312" name="Changes" comment="PEP8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VirtualMouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/VirtualMouse.py" afterDir="false" />
     </list>
@@ -228,7 +228,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713893552339</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="PEP8">
+      <option name="closed" value="true" />
+      <created>1713894322550</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1713894322550</updated>
+    </task>
+    <task id="LOCAL-00011" summary="PEP8">
+      <option name="closed" value="true" />
+      <created>1713894419645</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1713894419645</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,6 +267,7 @@
     <MESSAGE value="Fix (&quot;Deteccion de mano de manera exitosa , solo queda ajustar unos parametros" />
     <MESSAGE value="feat &quot;Le agrege la funcionalidad de mantener el click pulsado" />
     <MESSAGE value="Program_beta_1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Program_beta_1" />
+    <MESSAGE value="PEP8" />
+    <option name="LAST_COMMIT_MESSAGE" value="PEP8" />
   </component>
 </project>

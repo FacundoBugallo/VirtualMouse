@@ -7,8 +7,8 @@ import MainMouse as sm
 import autopy  # libreria que nos permite manipular el mouse
 
 # -----Declaracion de variables.-----
-anchocam, altocam = 1000, 650
-cuadro = 50  # donde podemos interacctuar
+anchocam, altocam = 840, 550
+cuadro = 120  # donde podemos interacctuar
 # obtenemos las dimensiones de nuestra pantalla
 anchopanta, altopanta = autopy.screen.size()
 sua = 5
